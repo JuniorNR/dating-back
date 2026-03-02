@@ -1,16 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { PartialType } from '@nestjs/swagger';
+import { CreateAnnouncementDto } from './create-announcement.dto';
 
-export class UpdateAnnouncementDto {
-  @ApiProperty({
-    example: 'I want to find a woman',
-  })
-  @IsString()
-  title?: string;
-
-  @ApiProperty({
-    example: 'Im 20 y.o. and i have a nice car',
-  })
-  @IsString()
-  content?: string;
-}
+export class UpdateAnnouncementDto extends PartialType(CreateAnnouncementDto) {}

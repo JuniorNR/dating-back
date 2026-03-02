@@ -1,31 +1,65 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsNumber, IsString } from 'class-validator';
+import {
+  ArrayMinSize,
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 
-export class CreateAnnouncementDto {
-  @ApiProperty({
-    example: 'I want to find a woman',
-  })
+export class CreateAnnouncementTranslationDto {
+  @ApiProperty({ example: 'en' })
   @IsString()
+  @IsNotEmpty()
+  locale: string;
+
+  @ApiProperty({ example: 'Be careful, working scammers!' })
+  @IsString()
+  @IsNotEmpty()
   title: string;
 
   @ApiProperty({
-    example: 'Im 20 y.o. and i have a nice car',
+    example:
+      'Scammers can sit under the guise of another person and easily mislead you.',
   })
   @IsString()
+  @IsNotEmpty()
   content: string;
+}
 
-  @ApiProperty({
-    example: 1,
-  })
+export class CreateAnnouncementDto {
+  @ApiProperty({ example: 1 })
+  @IsNotEmpty()
+  @IsNumber()
+  @Type(() => Number)
+  categoryId: number;
+
+  @ApiProperty({ example: 1 })
+  @IsNotEmpty()
   @IsNumber()
   @Type(() => Number)
   authorId: number;
 
   @ApiProperty({
-    example: 1,
+    type: [CreateAnnouncementTranslationDto],
+    example: [
+      {
+        locale: 'ru',
+        title: 'Информация о грядущих обновления',
+        content: 'Их пока что не будет',
+      },
+      {
+        locale: 'en',
+        title: 'Information about updates',
+        content: 'Nothing',
+      },
+    ],
   })
-  @IsNumber()
-  @Type(() => Number)
-  categoryId: number;
+  @IsArray()
+  @ArrayMinSize(1)
+  @ValidateNested({ each: true })
+  @Type(() => CreateAnnouncementTranslationDto)
+  translations: CreateAnnouncementTranslationDto[];
 }

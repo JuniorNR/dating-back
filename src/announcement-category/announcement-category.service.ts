@@ -12,13 +12,7 @@ export class AnnouncementCategoryService {
       data: {
         type: createAnnouncementCategoryDto.type,
         translations: {
-          create: createAnnouncementCategoryDto.translations.map(
-            (translation) => ({
-              locale: translation.locale,
-              title: translation.title,
-              description: translation.description,
-            }),
-          ),
+          create: createAnnouncementCategoryDto.translations,
         },
       },
       include: {

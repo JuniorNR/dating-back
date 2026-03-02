@@ -106,7 +106,10 @@ export class UserService {
     });
 
     if (!foundRole) {
-      throw new HttpException(this.i18n.t('error.roleNotFound'), HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        this.i18n.t('error.roleNotFound'),
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     return this.prisma.user.update({

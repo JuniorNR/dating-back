@@ -1,11 +1,24 @@
 model Announcement {
-  id         Int                  @id @default(autoincrement())
-  title      String
-  content    String
-  category   AnnouncementCategory @relation(fields: [categoryId], references: [id])
-  categoryId Int
-  author     User                 @relation(fields: [authorId], references: [id])
-  authorId   Int
-  createdAt  DateTime             @default(now())
-  updatedAt  DateTime?            @updatedAt
+  id           Int                        @id @default(autoincrement())
+  category     AnnouncementCategory       @relation(fields: [categoryId], references: [id])
+  categoryId   Int
+  author       User                       @relation(fields: [authorId], references: [id])
+  authorId     Int
+  translations AnnouncementTranslations[]
+  createdAt    DateTime                   @default(now())
+  updatedAt    DateTime?                  @updatedAt
+}
+
+model AnnouncementTranslations {
+  id             Int          @id @default(autoincrement())
+  locale         String
+  title          String
+  content        String
+  announcement   Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+  announcementId Int
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime?    @updatedAt
+
+  @@unique([announcementId, locale])
+  @@index([locale])
 }

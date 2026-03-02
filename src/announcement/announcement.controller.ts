@@ -1,42 +1,93 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AnnouncementService } from './announcement.service';
-import { RolesGuard } from '../common/guards/rolesGuard';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto';
+import { UpdateAnnouncementDto } from './dto/update-announcement.dto';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AnnouncementEntity } from './entities/announcement.entity';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { DeleteAnnouncementResponseDto } from './dto/delete-announcement-response.dto';
 
 @Controller('announcement')
-@ApiTags('Announcement')
 export class AnnouncementController {
   constructor(private readonly announcementService: AnnouncementService) {}
 
-  @Get('')
-  @UseGuards(RolesGuard)
+  @Post()
   @ApiOperation({
-    summary: 'Get all',
+    summary: 'Create announcement',
+    description: 'Create announcement',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Announcement is created',
+    type: AnnouncementEntity,
+  })
+  create(@Body() createAnnouncementDto: CreateAnnouncementDto) {
+    return this.announcementService.create(createAnnouncementDto);
+  }
+
+  @Get()
+  @ApiOperation({
+    summary: 'Get all announcements',
     description: 'Get all announcements',
   })
   @ApiResponse({
     status: 200,
-    description: 'List of announcements',
+    description: 'Announcements are found',
     type: [AnnouncementEntity],
   })
   findAll() {
     return this.announcementService.findAll();
   }
 
-  @Post('')
-  @UseGuards(RolesGuard)
+  @Get(':id')
   @ApiOperation({
-    summary: 'Create',
-    description: 'Create new announcement',
+    summary: 'Get one announcement by id',
+    description: 'Get one announcement by id',
   })
   @ApiResponse({
-    status: 201,
-    description: 'User is created',
+    status: 200,
+    description: 'Announcement is found',
     type: AnnouncementEntity,
   })
-  create(@Body() dto: CreateAnnouncementDto) {
-    return this.announcementService.create(dto);
+  findOne(@Param('id') id: string) {
+    return this.announcementService.findOne(+id);
+  }
+
+  @Patch(':id')
+  @ApiOperation({
+    summary: 'Update announcement by id',
+    description: 'Update announcement by id',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Announcement is updated',
+    type: AnnouncementEntity,
+  })
+  update(
+    @Param('id') id: string,
+    @Body() updateAnnouncementDto: UpdateAnnouncementDto,
+  ) {
+    return this.announcementService.update(+id, updateAnnouncementDto);
+  }
+
+  @Delete(':id')
+  @ApiOperation({
+    summary: 'Delete announcement by id',
+    description: 'Delete announcement by id',
+  })
+  @ApiResponse({
+    status: 204,
+    description: 'Announcement is deleted',
+    type: DeleteAnnouncementResponseDto,
+  })
+  remove(@Param('id') id: string) {
+    return this.announcementService.remove(+id);
   }
 }

@@ -1,35 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto';
-import { ConfigService } from '@nestjs/config';
+import { UpdateAnnouncementDto } from './dto/update-announcement.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class AnnouncementService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly configService: ConfigService,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  findAll() {
-    return this.prisma.announcement.findMany({
-      include: {
-        author: true,
-        category: {
-          include: {
-            translations: true,
-          },
+  create(createAnnouncementDto: CreateAnnouncementDto) {
+    return this.prisma.announcement.create({
+      data: {
+        authorId: createAnnouncementDto.authorId,
+        categoryId: createAnnouncementDto.categoryId,
+        translations: {
+          create: createAnnouncementDto.translations,
         },
+      },
+      include: {
+        translations: true,
       },
     });
   }
 
-  create(dto: CreateAnnouncementDto) {
-    return this.prisma.announcement.create({
-      data: {
-        ...dto,
-        categoryId: dto.categoryId,
-      },
+  findAll() {
+    return this.prisma.announcement.findMany({
       include: {
+        translations: true,
         author: true,
         category: {
           include: {
@@ -37,6 +33,70 @@ export class AnnouncementService {
           },
         },
       },
+      orderBy: {
+        id: 'asc',
+      },
+    });
+  }
+
+  findOne(id: number) {
+    return this.prisma.announcement.findUnique({
+      where: { id },
+      include: {
+        translations: true,
+        author: true,
+        category: true,
+      },
+    });
+  }
+
+  update(id: number, updateAnnouncementDto: UpdateAnnouncementDto) {
+    return this.prisma.$transaction(async (transaction) => {
+      const { translations, ...data } = updateAnnouncementDto;
+      const updatedAnnouncement = await transaction.announcement.update({
+        where: { id },
+        data,
+      });
+
+      if (translations && translations.length > 0) {
+        await Promise.all(
+          translations.map((translation) => {
+            return transaction.announcementTranslations.upsert({
+              where: {
+                announcementId_locale: {
+                  announcementId: id,
+                  locale: translation.locale,
+                },
+              },
+              update: {
+                title: translation.title,
+                content: translation.content,
+              },
+              create: {
+                announcementId: id,
+                locale: translation.locale,
+                title: translation.title,
+                content: translation.content,
+              },
+            });
+          }),
+        );
+      }
+
+      return transaction.announcement.findUnique({
+        where: { id: updatedAnnouncement.id },
+        include: {
+          translations: true,
+          author: true,
+          category: true,
+        },
+      });
+    });
+  }
+
+  remove(id: number) {
+    return this.prisma.announcement.delete({
+      where: { id },
     });
   }
 }
