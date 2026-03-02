@@ -1,7 +1,22 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Announcement } from '@prisma/client';
-import { AnnouncementEntity } from 'src/announcement/entities/announcement.entity';
 import { RoleEntity } from 'src/role/entities/role.entity';
+
+class UserAnnouncementEntity {
+  @ApiProperty({ example: 1, description: 'Unique id' })
+  id: number;
+
+  @ApiProperty({ example: 1, description: 'Category id' })
+  categoryId: number;
+
+  @ApiProperty({ example: 1, description: 'Author id' })
+  authorId: number;
+
+  @ApiProperty({ example: '2026-03-02T10:00:00.000Z' })
+  createdAt: Date;
+
+  @ApiProperty({ example: '2026-03-02T12:00:00.000Z', nullable: true })
+  updatedAt: Date | null;
+}
 
 export class UserEntity {
   @ApiProperty({ example: 1, description: 'Unique id' })
@@ -20,10 +35,10 @@ export class UserEntity {
   banReason?: string;
 
   @ApiProperty({
-    type: () => [AnnouncementEntity],
+    type: () => [UserAnnouncementEntity],
     description: 'Announcements list of user',
   })
-  announcements: Announcement[];
+  announcements: UserAnnouncementEntity[];
 
   @ApiProperty({
     type: () => [RoleEntity],

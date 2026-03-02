@@ -1,16 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { AnnouncementCategoryEntity } from 'src/announcement-category/entities/announcement-category.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
 
-class AnnouncementAuthorEntity {
-  @ApiProperty({ example: 1, description: 'Unique id' })
-  id: number;
-
-  @ApiProperty({ example: 'john_doe', description: 'Username' })
-  username: string;
-
-  @ApiProperty({ example: 'john@example.com', description: 'Email' })
-  email: string;
-}
+class AnnouncementAuthorEntity extends OmitType(UserEntity, [
+  'announcements',
+] as const) {}
 
 export class AnnouncementTranslationsEntity {
   @ApiProperty({ example: 1, description: 'Unique id' })
