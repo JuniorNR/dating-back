@@ -18,6 +18,7 @@ import { RoleModule } from './role/role.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './common/guards/jwtAuth.guard';
 import { ChatModule } from './chat/chat.module';
+import { AnnouncementCategoryModule } from './announcement-category/announcement-category.module';
 
 @Module({
   imports: [
@@ -33,7 +34,7 @@ import { ChatModule } from './chat/chat.module';
           watch: true,
         },
       }),
-      resolvers: [new CookieResolver()],
+      resolvers: [new CookieResolver(['locale'])],
       inject: [ConfigService],
     }),
     WebsocketModule,
@@ -42,6 +43,7 @@ import { ChatModule } from './chat/chat.module';
     RoleModule,
     AnnouncementModule,
     ChatModule,
+    AnnouncementCategoryModule,
   ],
   controllers: [AppController],
   providers: [

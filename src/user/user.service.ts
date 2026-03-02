@@ -7,10 +7,14 @@ import { AddUserBanDto } from './dto/add-user-ban.dto';
 import { RemoveUserBanDto } from './dto/remove-user-ban.dto';
 import type { AuthenticatedRequest } from 'src/common/types/jwt.types';
 import * as bcrypt from 'bcryptjs';
+import { I18nService } from 'nestjs-i18n';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly i18n: I18nService,
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     const role = await this.prisma.role.findFirst({
@@ -18,7 +22,10 @@ export class UserService {
     });
 
     if (role === null) {
-      throw new HttpException('Role user is not defined', HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        this.i18n.t('error.roleUserIsNotDefined'),
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
@@ -99,7 +106,7 @@ export class UserService {
     });
 
     if (!foundRole) {
-      throw new HttpException('Role not found', HttpStatus.NOT_FOUND);
+      throw new HttpException(this.i18n.t('error.roleNotFound'), HttpStatus.NOT_FOUND);
     }
 
     return this.prisma.user.update({

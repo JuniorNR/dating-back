@@ -1,4 +1,12 @@
 {
   "userNotAuthorized": "Пользователь не авторизован",
-  "usernameOrPasswordIsIncorrect": "Имя пользователя или пароль некорректны"
+  "usernameOrPasswordIsIncorrect": "Имя пользователя или пароль некорректны",
+  "roleUserIsNotDefined": "Роль user не определена",
+  "roleNotFound": "Роль не найдена",
+  "usernameAlreadyExists": "Имя пользователя уже занято",
+  "emailAlreadyExists": "Email уже занят",
+  "userIsNotChatMember": "Вы не являетесь участником этого чата",
+  "accessDeniedRequiredRoles": "Доступ запрещен. Требуемые роли: {requiredRoles}. У вас: {userRoles}",
+  "authenticationTokenMissing": "Отсутствует токен аутентификации",
+  "invalidOrExpiredToken": "Недействительный или просроченный токен"
 }

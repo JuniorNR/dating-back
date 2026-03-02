@@ -21,4 +21,11 @@ export class CreateAnnouncementDto {
   @IsNumber()
   @Type(() => Number)
   authorId: number;
+
+  @ApiProperty({
+    example: 1,
+  })
+  @IsNumber()
+  @Type(() => Number)
+  categoryId: number;
 }

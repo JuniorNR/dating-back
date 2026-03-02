@@ -1,7 +1,7 @@
 model Chat {
-  id Int @id @default(autoincrement())
-  members User[]
-  messages ChatMessage[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime? @updatedAt
+  id        Int           @id @default(autoincrement())
+  members   User[]
+  messages  ChatMessage[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime?     @updatedAt
 }

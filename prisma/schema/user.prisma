@@ -1,14 +1,14 @@
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  email     String   @unique
-  password  String
-  banned    Boolean  @default(false)
-  banReason String?
+  id            Int            @id @default(autoincrement())
+  username      String         @unique
+  email         String         @unique
+  password      String
+  banned        Boolean        @default(false)
+  banReason     String?
   announcements Announcement[]
-  roles     Role[]
-  chats     Chat[]
-  messages  ChatMessage[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime? @updatedAt
+  roles         Role[]
+  chats         Chat[]
+  messages      ChatMessage[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime?      @updatedAt
 }

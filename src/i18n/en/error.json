@@ -1,4 +1,12 @@
 {
   "userNotAuthorized": "User is not authorized",
-    "usernameOrPasswordIsIncorrect": "Username or password is incorrect"
+  "usernameOrPasswordIsIncorrect": "Username or password is incorrect",
+  "roleUserIsNotDefined": "Role user is not defined",
+  "roleNotFound": "Role not found",
+  "usernameAlreadyExists": "Username already exists",
+  "emailAlreadyExists": "Email already exists",
+  "userIsNotChatMember": "You are not a member of this chat",
+  "accessDeniedRequiredRoles": "Access denied. Required roles: {requiredRoles}. You have: {userRoles}",
+  "authenticationTokenMissing": "Authentication token is missing",
+  "invalidOrExpiredToken": "Invalid or expired token"
 }

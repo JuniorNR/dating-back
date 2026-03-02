@@ -12,13 +12,31 @@ export class AnnouncementService {
 
   findAll() {
     return this.prisma.announcement.findMany({
-      include: { author: true },
+      include: {
+        author: true,
+        category: {
+          include: {
+            translations: true,
+          },
+        },
+      },
     });
   }
 
   create(dto: CreateAnnouncementDto) {
     return this.prisma.announcement.create({
-      data: dto,
+      data: {
+        ...dto,
+        categoryId: dto.categoryId,
+      },
+      include: {
+        author: true,
+        category: {
+          include: {
+            translations: true,
+          },
+        },
+      },
     });
   }
 }

@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from 'src/user/entities/user.entity';
+import { AnnouncementCategoryEntity } from 'src/announcement-category/entities/announcement-category.entity';
 
 export class AnnouncementEntity {
   @ApiProperty({ example: 1 })
@@ -16,6 +17,12 @@ export class AnnouncementEntity {
 
   @ApiProperty({ example: 1 })
   authorId: number;
+
+  @ApiProperty({ example: 1 })
+  categoryId: number;
+
+  @ApiProperty({ type: () => AnnouncementCategoryEntity })
+  category: AnnouncementCategoryEntity;
 
   @ApiProperty({ example: '2026-02-15T12:00:00.000Z' })
   createdAt: Date;

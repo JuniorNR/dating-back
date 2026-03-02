@@ -1,0 +1,20 @@
+model AnnouncementCategory {
+  id            Int                               @id @default(autoincrement())
+  type          String                            @unique
+  translations  AnnouncementCategoryTranslation[]
+  announcements Announcement[]
+  createdAt     DateTime                          @default(now())
+  updatedAt     DateTime?                         @updatedAt
+}
+
+model AnnouncementCategoryTranslation {
+  id          Int                  @id @default(autoincrement())
+  locale      String
+  title       String
+  description String
+  categoryId  Int
+  category    AnnouncementCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([categoryId, locale])
+  @@index([locale])
+}

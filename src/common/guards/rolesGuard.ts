@@ -5,13 +5,17 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { I18nService } from 'nestjs-i18n';
 import { Observable } from 'rxjs';
 import { ROLES_KEY } from '../decorators/roles-auth.decorator';
 import { AuthenticatedRequest } from '../types/jwt.types';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private readonly reflector: Reflector) {}
+  constructor(
+    private readonly reflector: Reflector,
+    private readonly i18n: I18nService,
+  ) {}
 
   canActivate(
     context: ExecutionContext,
@@ -34,7 +38,12 @@ export class RolesGuard implements CanActivate {
 
     throw new ForbiddenException({
       statusCode: 403,
-      message: `Access denied. Required roles: ${requiredRoles.join(', ')}. You have: ${user.roles.map((role) => role.type).join(', ')}`,
+      message: this.i18n.t('error.accessDeniedRequiredRoles', {
+        args: {
+          requiredRoles: requiredRoles.join(', '),
+          userRoles: user.roles.map((role) => role.type).join(', '),
+        },
+      }),
     });
   }
 }

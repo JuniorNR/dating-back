@@ -1,10 +1,14 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { I18nService } from 'nestjs-i18n';
 
 @Injectable()
 export class ChatService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly i18n: I18nService,
+  ) {}
 
   async create(creatorId: number, dto: CreateChatDto) {
     const allMemberIds = [...new Set([creatorId, ...dto.memberIds])];
@@ -102,7 +106,7 @@ export class ChatService {
 
   private async assertMembership(chatId: number, userId: number) {
     if (!(await this.isChatMember(chatId, userId))) {
-      throw new ForbiddenException('You are not a member of this chat');
+      throw new ForbiddenException(this.i18n.t('error.userIsNotChatMember'));
     }
   }
 }

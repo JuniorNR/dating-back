@@ -78,13 +78,13 @@ export class AuthService {
       toValidateUser.username,
     );
     if (checkByUsername !== null) {
-      throw new BadRequestException('Username already exists');
+      throw new BadRequestException(this.i18n.t('error.usernameAlreadyExists'));
     }
     const checkByEmail = await this.userService.findOneByEmail(
       toValidateUser.email,
     );
     if (checkByEmail !== null) {
-      throw new BadRequestException('Email already exists');
+      throw new BadRequestException(this.i18n.t('error.emailAlreadyExists'));
     }
 
     const newUser = await this.userService.create(toValidateUser);

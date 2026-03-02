@@ -4,10 +4,22 @@ export const seedUsers = (prisma: PrismaClient) => {
   return prisma.user.createMany({
     data: [
       {
-        username: 'Admin',
+        username: 'admin',
         email: 'admin@mail.ru',
         password:
-          '$2b$10$9fLMJS6QNp5wESVK8z.Za.R1JNhLK4H7oQQXjZR2J8Qkepql66bRa',
+          '$2b$10$J/9c9JmgP0x5AWmpi7bkoeFasuldUVRsIGfOM.7PogiKmpQgHcncm',
+      },
+      {
+        username: 'user',
+        email: 'user@mail.ru',
+        password:
+          '$2b$10$J/9c9JmgP0x5AWmpi7bkoeFasuldUVRsIGfOM.7PogiKmpQgHcncm',
+      },
+      {
+        username: 'PuffDiddy56',
+        email: 'PuffDiddy56@mail.ru',
+        password:
+          '$2b$10$J/9c9JmgP0x5AWmpi7bkoeFasuldUVRsIGfOM.7PogiKmpQgHcncm',
       },
     ],
     skipDuplicates: true,
