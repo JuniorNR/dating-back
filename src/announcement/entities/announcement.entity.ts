@@ -1,6 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { AnnouncementCategoryEntity } from 'src/announcement-category/entities/announcement-category.entity';
-import { UserEntity } from 'src/user/entities/user.entity';
+
+class AnnouncementAuthorEntity {
+  @ApiProperty({ example: 1, description: 'Unique id' })
+  id: number;
+
+  @ApiProperty({ example: 'john_doe', description: 'Username' })
+  username: string;
+
+  @ApiProperty({ example: 'john@example.com', description: 'Email' })
+  email: string;
+}
 
 export class AnnouncementTranslationsEntity {
   @ApiProperty({ example: 1, description: 'Unique id' })
@@ -36,10 +46,10 @@ export class AnnouncementEntity {
   categoryId: number;
 
   @ApiProperty({
-    type: () => UserEntity,
+    type: () => AnnouncementAuthorEntity,
     description: 'Author of announcement',
   })
-  author: UserEntity;
+  author: AnnouncementAuthorEntity;
 
   @ApiProperty({ example: 1, description: 'Author id' })
   authorId: number;

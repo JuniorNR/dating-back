@@ -17,6 +17,12 @@ export class AnnouncementService {
         },
       },
       include: {
+        author: { omit: { password: true } },
+        category: {
+          include: {
+            translations: true,
+          },
+        },
         translations: true,
       },
     });
@@ -26,7 +32,7 @@ export class AnnouncementService {
     return this.prisma.announcement.findMany({
       include: {
         translations: true,
-        author: true,
+        author: { omit: { password: true } },
         category: {
           include: {
             translations: true,
@@ -44,8 +50,12 @@ export class AnnouncementService {
       where: { id },
       include: {
         translations: true,
-        author: true,
-        category: true,
+        author: { omit: { password: true } },
+        category: {
+          include: {
+            translations: true,
+          },
+        },
       },
     });
   }
@@ -87,8 +97,12 @@ export class AnnouncementService {
         where: { id: updatedAnnouncement.id },
         include: {
           translations: true,
-          author: true,
-          category: true,
+          author: { omit: { password: true } },
+          category: {
+            include: {
+              translations: true,
+            },
+          },
         },
       });
     });

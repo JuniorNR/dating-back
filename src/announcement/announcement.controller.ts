@@ -83,7 +83,7 @@ export class AnnouncementController {
     description: 'Delete announcement by id',
   })
   @ApiResponse({
-    status: 204,
+    status: 200,
     description: 'Announcement is deleted',
     type: DeleteAnnouncementResponseDto,
   })
