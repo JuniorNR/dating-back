@@ -11,7 +11,7 @@ import {
 import { AnnouncementService } from './announcement.service';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto';
 import { UpdateAnnouncementDto } from './dto/update-announcement.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { AnnouncementEntity } from './entities/announcement.entity';
 import { DeleteAnnouncementResponseDto } from './dto/delete-announcement-response.dto';
 
@@ -48,6 +48,7 @@ export class AnnouncementController {
   }
 
   @Get(':id')
+  @ApiParam({ name: 'id', type: Number, example: 1 })
   @ApiOperation({
     summary: 'Get one announcement by id',
     description: 'Get one announcement by id',
@@ -62,6 +63,7 @@ export class AnnouncementController {
   }
 
   @Patch(':id')
+  @ApiParam({ name: 'id', type: Number, example: 1 })
   @ApiOperation({
     summary: 'Update announcement by id',
     description: 'Update announcement by id',
@@ -79,6 +81,7 @@ export class AnnouncementController {
   }
 
   @Delete(':id')
+  @ApiParam({ name: 'id', type: Number, example: 1 })
   @ApiOperation({
     summary: 'Delete announcement by id',
     description: 'Delete announcement by id',

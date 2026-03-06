@@ -12,7 +12,7 @@ import {
 import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { RoleEntity } from './entities/role.entity';
 import { RolesGuard } from 'src/common/guards/rolesGuard';
 import { Roles } from 'src/common/decorators/roles-auth.decorator';
@@ -66,6 +66,7 @@ export class RoleController {
   }
 
   @Get(':id')
+  @ApiParam({ name: 'id', type: Number, example: 1 })
   @ApiOperation({
     summary: 'Find role by id',
     description: 'Find role by id',
@@ -80,6 +81,7 @@ export class RoleController {
   }
 
   @Patch(':id')
+  @ApiParam({ name: 'id', type: Number, example: 1 })
   @ApiOperation({
     summary: 'Update role by id',
     description: 'Update role by id',
@@ -94,6 +96,7 @@ export class RoleController {
   }
 
   @Delete(':id')
+  @ApiParam({ name: 'id', type: Number, example: 1 })
   @ApiOperation({
     summary: 'Delete role by id',
     description: 'Delete role by id',

@@ -12,7 +12,7 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from './entities/user.entity';
 import { RolesGuard } from 'src/common/guards/rolesGuard';
 import { Roles } from 'src/common/decorators/roles-auth.decorator';
@@ -72,6 +72,7 @@ export class UserController {
   }
 
   @Get(':id')
+  @ApiParam({ name: 'id', type: Number, example: 1 })
   @ApiOperation({
     summary: 'Get one user by id',
     description: 'Get one user by id',
@@ -86,6 +87,7 @@ export class UserController {
   }
 
   @Patch(':id')
+  @ApiParam({ name: 'id', type: Number, example: 1 })
   @ApiOperation({
     summary: 'Update one user by id',
     description: 'Update one user by id',
@@ -100,6 +102,7 @@ export class UserController {
   }
 
   @Delete(':id')
+  @ApiParam({ name: 'id', type: Number, example: 1 })
   @ApiOperation({
     summary: 'Delete one user by id',
     description: 'Delete one user by id',

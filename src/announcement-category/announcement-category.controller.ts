@@ -19,6 +19,7 @@ import { AnnouncementCategoryService } from './announcement-category.service';
 import { CreateAnnouncementCategoryDto } from './dto/create-announcement-category.dto';
 import { UpdateAnnouncementCategoryDto } from './dto/update-announcement-category.dto';
 import { AnnouncementCategoryEntity } from './entities/announcement-category.entity';
+import { DeleteAnnouncementCategoryResponseDto } from './dto/delete-announcement-category-response.dto';
 
 @ApiTags('Announcement Category')
 @Controller('announcement-category')
@@ -30,8 +31,11 @@ export class AnnouncementCategoryController {
   @Post()
   @ApiOperation({ summary: 'Create announcement category with translations' })
   @ApiBody({ type: CreateAnnouncementCategoryDto })
-  @ApiResponse({ status: 201, description: 'Category created successfully' })
-  @ApiResponse({ status: 400, description: 'Validation error' })
+  @ApiResponse({
+    status: 201,
+    description: 'Category created successfully',
+    type: AnnouncementCategoryEntity,
+  })
   create(@Body() createAnnouncementCategoryDto: CreateAnnouncementCategoryDto) {
     return this.announcementCategoryService.create(
       createAnnouncementCategoryDto,
@@ -57,7 +61,6 @@ export class AnnouncementCategoryController {
     description: 'Category returned successfully',
     type: AnnouncementCategoryEntity,
   })
-  @ApiResponse({ status: 404, description: 'Category not found' })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.announcementCategoryService.findOne(id);
   }
@@ -71,8 +74,6 @@ export class AnnouncementCategoryController {
     description: 'Category updated successfully',
     type: AnnouncementCategoryEntity,
   })
-  @ApiResponse({ status: 400, description: 'Validation error' })
-  @ApiResponse({ status: 404, description: 'Category not found' })
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateAnnouncementCategoryDto: UpdateAnnouncementCategoryDto,
@@ -86,7 +87,11 @@ export class AnnouncementCategoryController {
   @Delete(':id')
   @ApiOperation({ summary: 'Delete announcement category by id' })
   @ApiParam({ name: 'id', type: Number, example: 1 })
-  @ApiResponse({ status: 200, description: 'Category deleted successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Category deleted successfully',
+    type: DeleteAnnouncementCategoryResponseDto,
+  })
   @ApiResponse({ status: 404, description: 'Category not found' })
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.announcementCategoryService.remove(id);
