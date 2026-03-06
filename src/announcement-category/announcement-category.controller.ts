@@ -18,6 +18,7 @@ import {
 import { AnnouncementCategoryService } from './announcement-category.service';
 import { CreateAnnouncementCategoryDto } from './dto/create-announcement-category.dto';
 import { UpdateAnnouncementCategoryDto } from './dto/update-announcement-category.dto';
+import { AnnouncementCategoryEntity } from './entities/announcement-category.entity';
 
 @ApiTags('Announcement Category')
 @Controller('announcement-category')
@@ -39,7 +40,11 @@ export class AnnouncementCategoryController {
 
   @Get()
   @ApiOperation({ summary: 'Get all announcement categories' })
-  @ApiResponse({ status: 200, description: 'Categories returned successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Categories returned successfully',
+    type: [AnnouncementCategoryEntity],
+  })
   findAll() {
     return this.announcementCategoryService.findAll();
   }
@@ -47,7 +52,11 @@ export class AnnouncementCategoryController {
   @Get(':id')
   @ApiOperation({ summary: 'Get announcement category by id' })
   @ApiParam({ name: 'id', type: Number, example: 1 })
-  @ApiResponse({ status: 200, description: 'Category returned successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Category returned successfully',
+    type: AnnouncementCategoryEntity,
+  })
   @ApiResponse({ status: 404, description: 'Category not found' })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.announcementCategoryService.findOne(id);
@@ -57,7 +66,11 @@ export class AnnouncementCategoryController {
   @ApiOperation({ summary: 'Update announcement category and translations' })
   @ApiParam({ name: 'id', type: Number, example: 1 })
   @ApiBody({ type: UpdateAnnouncementCategoryDto })
-  @ApiResponse({ status: 200, description: 'Category updated successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Category updated successfully',
+    type: AnnouncementCategoryEntity,
+  })
   @ApiResponse({ status: 400, description: 'Validation error' })
   @ApiResponse({ status: 404, description: 'Category not found' })
   update(

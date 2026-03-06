@@ -6,7 +6,10 @@
   "usernameAlreadyExists": "Username already exists",
   "emailAlreadyExists": "Email already exists",
   "userIsNotChatMember": "You are not a member of this chat",
+  "accessDenied": "Access denied",
   "accessDeniedRequiredRoles": "Access denied. Required roles: {requiredRoles}. You have: {userRoles}",
   "authenticationTokenMissing": "Authentication token is missing",
-  "invalidOrExpiredToken": "Invalid or expired token"
+  "invalidOrExpiredToken": "Invalid or expired token",
+  "announcementNotFound": "Announcement with id {id} not found",
+  "roleWithNameAlreadyExists": "Role with name {name} already exists"
 }

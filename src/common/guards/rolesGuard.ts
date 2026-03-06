@@ -38,6 +38,7 @@ export class RolesGuard implements CanActivate {
 
     throw new ForbiddenException({
       statusCode: 403,
+      error: this.i18n.t('error.accessDenied'),
       message: this.i18n.t('error.accessDeniedRequiredRoles', {
         args: {
           requiredRoles: requiredRoles.join(', '),

@@ -6,7 +6,10 @@
   "usernameAlreadyExists": "Имя пользователя уже занято",
   "emailAlreadyExists": "Email уже занят",
   "userIsNotChatMember": "Вы не являетесь участником этого чата",
+  "accessDenied": "Доступ запрещен",
   "accessDeniedRequiredRoles": "Доступ запрещен. Требуемые роли: {requiredRoles}. У вас: {userRoles}",
   "authenticationTokenMissing": "Отсутствует токен аутентификации",
-  "invalidOrExpiredToken": "Недействительный или просроченный токен"
+  "invalidOrExpiredToken": "Недействительный или просроченный токен",
+  "announcementNotFound": "Объявление с id {id} не найдено",
+  "roleWithNameAlreadyExists": "Роль с именем {name} уже существует"
 }

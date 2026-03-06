@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { AnnouncementService } from './announcement.service';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto';
@@ -56,8 +57,8 @@ export class AnnouncementController {
     description: 'Announcement is found',
     type: AnnouncementEntity,
   })
-  findOne(@Param('id') id: string) {
-    return this.announcementService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.announcementService.findOne(id);
   }
 
   @Patch(':id')
@@ -71,10 +72,10 @@ export class AnnouncementController {
     type: AnnouncementEntity,
   })
   update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateAnnouncementDto: UpdateAnnouncementDto,
   ) {
-    return this.announcementService.update(+id, updateAnnouncementDto);
+    return this.announcementService.update(id, updateAnnouncementDto);
   }
 
   @Delete(':id')
@@ -87,7 +88,7 @@ export class AnnouncementController {
     description: 'Announcement is deleted',
     type: DeleteAnnouncementResponseDto,
   })
-  remove(@Param('id') id: string) {
-    return this.announcementService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.announcementService.remove(id);
   }
 }
