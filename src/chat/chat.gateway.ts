@@ -36,8 +36,9 @@ export class ChatGateway
   async handleConnection(client: AppSocket) {
     const { sub, username } = client.data.user;
     await client.join(`user:${sub}`);
+
     console.log(
-      `[WS][chat][connected]: user[id=${sub} username=${username}], socket=${client.id}`,
+      `[WS][chat][connected]: user[id:${sub} username:${username}], socket=${client.id}`,
     );
   }
 
@@ -45,7 +46,7 @@ export class ChatGateway
     const { sub, username } = client.data.user;
     client.disconnect();
     console.log(
-      `[WS][chat][disconnected]: user[id=${sub} username=${username}], socket=${client.id}`,
+      `[WS][chat][disconnected]: user[id:${sub} username:${username}], socket=${client.id}`,
     );
   }
 
@@ -115,9 +116,6 @@ export class ChatGateway
     @MessageBody() sendMessageDto: SendMessageDto,
   ) {
     const { sub } = client.data.user;
-    console.log('sendMessageDto:', sendMessageDto, typeof sendMessageDto);
-    console.log('chatId:', sendMessageDto.chatId, typeof sendMessageDto.chatId);
-
     const newMessage = await this.chatService.createMessage(
       sendMessageDto.chatId,
       sub,

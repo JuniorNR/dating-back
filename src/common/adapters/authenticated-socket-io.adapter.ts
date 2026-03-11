@@ -19,17 +19,48 @@ export class AuthenticatedSocketIoAdapter extends IoAdapter {
   createIOServer(port: number, options?: Partial<ServerOptions>): Server {
     const server: Server = super.createIOServer(port, options) as Server;
 
+    const parseCookieHeader = (
+      cookieHeader?: string,
+    ): Record<string, string> => {
+      if (!cookieHeader) return {};
+
+      return cookieHeader
+        .split(';')
+        .map((part) => part.trim())
+        .reduce<Record<string, string>>((acc, part) => {
+          const separatorIndex = part.indexOf('=');
+          if (separatorIndex < 0) return acc;
+
+          const key = decodeURIComponent(part.slice(0, separatorIndex).trim());
+          const value = decodeURIComponent(
+            part.slice(separatorIndex + 1).trim(),
+          );
+          acc[key] = value;
+          return acc;
+        }, {});
+    };
+
     const authMiddleware = (
       socket: Socket,
       next: (err?: Error) => void,
     ): void => {
       try {
+        const cookieName = String(process.env['JWT_ACCESS_COOKIE_NAME'] || '');
+        const cookies = parseCookieHeader(socket.handshake.headers?.cookie);
+        const tokenFromCookie =
+          cookieName && typeof cookies[cookieName] === 'string'
+            ? cookies[cookieName]
+            : undefined;
+
         const token =
+          tokenFromCookie ||
           (socket.handshake.auth as Record<string, string>)?.token ||
           socket.handshake.headers?.authorization?.split(' ')[1];
 
         if (!token) {
-          return next(new Error(this.i18n.t('error.authenticationTokenMissing')));
+          return next(
+            new Error(this.i18n.t('error.authenticationTokenMissing')),
+          );
         }
 
         (socket as AppSocket).data.user =

@@ -35,12 +35,12 @@ export class ChatService {
         },
       },
       include: {
-        members: { select: { id: true, username: true } },
+        members: { omit: { password: true } },
         messages: {
           take: 1,
           orderBy: { createdAt: 'desc' },
           include: {
-            author: { select: { id: true, username: true } },
+            author: { omit: { password: true } },
           },
         },
       },
@@ -62,7 +62,7 @@ export class ChatService {
       },
       ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
       take: limit,
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: 'asc' },
       include: {
         author: true,
       },
