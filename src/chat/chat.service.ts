@@ -10,7 +10,7 @@ export class ChatService {
     private readonly i18n: I18nService,
   ) {}
 
-  async create(creatorId: number, dto: CreateChatDto) {
+  async createChat(creatorId: number, dto: CreateChatDto) {
     const allMemberIds = [...new Set([creatorId, ...dto.memberIds])];
 
     const newChat = await this.prisma.chat.create({
@@ -23,6 +23,11 @@ export class ChatService {
     });
 
     return newChat;
+  }
+
+  async deleteChat(chatId: number, userId: number) {
+    await this.assertMembership(chatId, userId);
+    return await this.prisma.chat.delete({ where: { id: chatId } });
   }
 
   async getUserChats(userId: number) {
