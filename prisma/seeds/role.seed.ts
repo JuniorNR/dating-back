@@ -1,26 +1,64 @@
 import { PrismaClient } from '@prisma/client';
 
-export const seedRoles = (prisma: PrismaClient) => {
-  return prisma.role.createMany({
-    data: [
-      {
-        name: 'User',
-        type: 'user',
-        description: 'User is default role on this project.',
+export const seedRoles = async (prisma: PrismaClient) => {
+  const rolesData = [
+    {
+      type: 'user',
+      translations: {
+        create: [
+          {
+            locale: 'en',
+            name: 'User',
+            description: 'Default role with basic permissions',
+          },
+          {
+            locale: 'ru',
+            name: 'Пользователь',
+            description: 'Базовая роль с ограниченными правами',
+          },
+        ],
       },
-      {
-        name: 'Admin',
-        type: 'admin',
-        description:
-          'The administrator can administer the content in the project.',
+    },
+    {
+      type: 'admin',
+      translations: {
+        create: [
+          {
+            locale: 'en',
+            name: 'Admin',
+            description: 'Can manage content and users',
+          },
+          {
+            locale: 'ru',
+            name: 'Администратор',
+            description: 'Может управлять контентом и пользователями',
+          },
+        ],
       },
-      {
-        name: 'Super user',
-        type: 'super-user',
-        description:
-          'A super user can do everything that is possible in the project.',
+    },
+    {
+      type: 'super-user',
+      translations: {
+        create: [
+          {
+            locale: 'en',
+            name: 'Super User',
+            description: 'Full access to all features',
+          },
+          {
+            locale: 'ru',
+            name: 'Суперпользователь',
+            description: 'Полный доступ ко всем функциям',
+          },
+        ],
       },
-    ],
-    skipDuplicates: true,
-  });
+    },
+  ];
+  for (const roleData of rolesData) {
+    await prisma.role.upsert({
+      where: { type: roleData.type },
+      update: {},
+      create: roleData,
+    });
+  }
 };

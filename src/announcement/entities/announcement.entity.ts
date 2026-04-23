@@ -18,12 +18,6 @@ export class AnnouncementTranslationsEntity {
 
   @ApiProperty({ example: 'Typing and dating' })
   content: string;
-
-  @ApiProperty({ example: '2026-03-02T10:00:00.000Z' })
-  createdAt: Date;
-
-  @ApiProperty({ example: '2026-03-02T12:00:00.000Z', nullable: true })
-  updatedAt: Date | null;
 }
 
 export class AnnouncementEntity {

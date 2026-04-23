@@ -65,7 +65,7 @@ export class UserController {
     description: 'List of users',
     type: [UserEntity],
   })
-  @Roles('admin')
+  @Roles('admin', 'super-user')
   @UseGuards(RolesGuard)
   findAll() {
     return this.userService.findAll();

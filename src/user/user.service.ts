@@ -52,7 +52,6 @@ export class UserService {
     return this.prisma.user.findFirst({
       where: { id: request.user.sub },
       include: { roles: true, announcements: true },
-      omit: { password: true },
     });
   }
 
@@ -89,13 +88,14 @@ export class UserService {
   update(id: number, updateUserDto: UpdateUserDto) {
     const updatedUser = this.prisma.user.update({
       where: { id },
+      include: { roles: true },
       data: updateUserDto,
     });
     return updatedUser;
   }
 
   remove(id: number) {
-    return this.prisma.user.delete({ where: { id } });
+    return this.prisma.user.delete({ where: { id }, omit: { password: true } });
   }
 
   async addRole(addUserRoleDto: AddUserRoleDto) {
@@ -119,6 +119,7 @@ export class UserService {
           connect: { id: addUserRoleDto.roleId },
         },
       },
+      omit: { password: true },
       include: {
         roles: true,
         announcements: true,
@@ -134,6 +135,7 @@ export class UserService {
           disconnect: { id: addUserRoleDto.roleId },
         },
       },
+      omit: { password: true },
       include: {
         roles: true,
         announcements: true,
@@ -148,6 +150,7 @@ export class UserService {
         banned: true,
         banReason: addUserBanDto.reason,
       },
+      omit: { password: true },
     });
   }
 
@@ -158,6 +161,7 @@ export class UserService {
         banned: false,
         banReason: null,
       },
+      omit: { password: true },
     });
   }
 }

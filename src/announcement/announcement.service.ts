@@ -65,11 +65,11 @@ export class AnnouncementService {
     });
   }
 
-  update(id: number, updateAnnouncementDto: UpdateAnnouncementDto) {
+  async update(id: number, updateAnnouncementDto: UpdateAnnouncementDto) {
     return this.prisma
       .$transaction(async (transaction) => {
         const { translations, ...data } = updateAnnouncementDto;
-        const updatedAnnouncement = await transaction.announcement.update({
+        await transaction.announcement.update({
           where: { id },
           data,
         });
@@ -100,7 +100,7 @@ export class AnnouncementService {
         }
 
         return transaction.announcement.findUnique({
-          where: { id: updatedAnnouncement.id },
+          where: { id },
           include: {
             translations: true,
             author: { omit: { password: true } },
